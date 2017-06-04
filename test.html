@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Tasks</title>
+  <style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td,
+    th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    /*tr:nth-child(even) {
+      background-color: #dddddd;
+    }*/
+
+    .activeCell {
+      background-color: darkgreen;
+    }
+  </style>
+</head>
+
+<body>
+  <span>Периодичность: </span>
+  <label for="day">день</label>
+  <input type="radio" name="disc" id="day" value="day">
+  <label for="week">неделя</label>
+  <input type="radio" name="disc" id="week" value="week">
+  <label for="month">месяц</label>
+  <input type="radio" name="disc" id="month" value="month">
+  <table>
+    <tr>
+      <th rowspan="2">ID работы</th>
+      <th rowspan="2">Наименование работы</th>
+      <th rowspan="2">Дата старта</th>
+      <th rowspan="2">Дата финиша</th>
+      <th rowspan="2">Длит. (сут.)</th>
+      <th colspan="5">Июнь 2017</th>
+      <th colspan="5">Июль 2017</th>
+    </tr>
+    <tr>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>10</th>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Прокладка временных коммуникаций</td>
+      <td>15.06.2017</td>
+      <td>16.06.2017</td>
+      <td>2</td>
+      <td></td>
+      <td class="activeCell"></td>
+      <td class="activeCell"></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </table>
+</body>
+
+</html>
