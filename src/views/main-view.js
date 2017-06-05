@@ -1,53 +1,71 @@
 import xs from 'xstream'
-import { table, th, td, tr } from '@cycle/dom'
+import { table, th, td, tr, div } from '@cycle/dom'
+import moment from 'moment'
 
-const tableAttrs = {
-  style: {
-    'font-family': 'arial, sans-serif',
-    'border-collapse': 'collapse',
-    width: '100%',
-  },
-}
-const tdAttrs = {
-  style: {
-    border: '1px solid #dddddd',
-    'text-align': 'left',
-    padding: '8px',
-  },
-}
-const thAttrs = {
-  style: {
-    border: '1px solid #dddddd',
-    'text-align': 'left',
-    padding: '8px',
-  },
-}
+function view(state$, data) {
+  const minDate = data.length && moment(data[0].start)
+  const sortedAsc = [...data]
+  sortedAsc.sort((a, b) => a.finish < b.finish)
+  const maxDate = sortedAsc.length && moment(sortedAsc[0].finish)
+  const days = maxDate.diff(minDate, 'days') + 1
+  let months = []
+  if (minDate && maxDate && minDate <= maxDate) {
+    let currentDay = moment(minDate).startOf('day')
+    let currentMonth = moment(currentDay).startOf('month')
+    let month = { month: currentMonth.format('MMM YYYY'), days: [] }
+    while (currentDay <= maxDate) {
+      month.days.push(currentDay.format('DD'))
+      let nextDay = moment(currentDay).add(1, 'day')
+      let nextMonth = moment(nextDay).startOf('month')
+      if (nextDay.isSame(nextMonth) || currentDay.isSame(maxDate)) {
+        months.push(month)
+        month = { month: nextMonth.format('MMM YYYY'), days: [] }
+      }
+      currentDay.add(1, 'day')
+    }
+  }
 
-function view(state$) {
   return xs.of(
-    table(tableAttrs, [
-      tr([
-        th({ props: { rowSpan: 2 } }, 'ID работы'),
-        th({ props: { rowSpan: 2 } }, 'Наименование работы'),
-        th({ props: { rowSpan: 2 } }, 'Дата старта'),
-        th({ props: { rowSpan: 2 } }, 'Дата финиша'),
-        th({ props: { rowSpan: 2 } }, 'Длит. (сут.)'),
-        th({ props: { colSpan: 5 } }, 'Июнь 2017'),
-        th({ props: { colSpan: 5 } }, 'Июль 2017'),
-      ]),
-      tr([
-        th('1'),
-        th('2'),
-        th('3'),
-        th('4'),
-        th('5'),
-        th('6'),
-        th('7'),
-        th('8'),
-        th('9'),
-        th('10'),
-      ]),
-    ])
+    div(
+      '.wrapper',
+      table('.table', [
+        tr('.row', [
+          th('.th.taskId', { props: { rowSpan: 2 } }, 'ID работы'),
+          th('.th.taskName', { props: { rowSpan: 2 } }, 'Наименование работы'),
+          th('.th.start', { props: { rowSpan: 2 } }, 'Дата старта'),
+          th('.th.finish', { props: { rowSpan: 2 } }, 'Дата финиша'),
+          th('.th.duration', { props: { rowSpan: 2 } }, 'Длит. (сут.)'),
+          ...months.map(month => {
+            return th(
+              '.th.month',
+              { props: { colSpan: month.days.length } },
+              month.month
+            )
+          }),
+        ]),
+        tr(
+          '.row',
+          months
+            .reduce((acc, month) => acc.concat(month.days), [])
+            .map(el => th('.th.day', el))
+        ),
+        ...data.map(row => {
+          return tr('.row', [
+            td('.td.taskId.centered', row.id),
+            td('.td.taskName', row.name),
+            td('.td.start', row.start.format('DD.MM.YYYY')),
+            td('.td.finish', row.finish.format('DD.MM.YYYY')),
+            td('.td.duration.centered', row.finish.diff(row.start, 'days') + 1),
+            ...Array(days).fill().map((el, index) => {
+              const isMarked = moment(minDate)
+                .add(index, 'day')
+                .isBetween(row.start, row.finish, null, '[]')
+              return td(isMarked ? '.marked' : '.empty')
+            }),
+          ])
+        }),
+      ])
+    )
   )
 }
 

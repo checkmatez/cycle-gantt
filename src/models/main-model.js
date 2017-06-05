@@ -1,33 +1,43 @@
 import xs from 'xstream'
-import makeVisibleIndices$ from './make-visible-indices'
+import moment from 'moment'
 
 function model(actions) {
-  let tableHeight$ = xs.of(500)
-  let rowHeight$ = xs.of(30)
-  let columns$ = xs.of(['ID', 'ID * 10', 'Random Number'])
-  let rowCount$ = xs.of(10000)
-  let scrollTop$ = actions.userScrolled$.startWith(0)
-  let visibleIndices$ = makeVisibleIndices$(
-    tableHeight$,
-    rowHeight$,
-    rowCount$,
-    scrollTop$
-  )
-  let state$ = xs.Observable.combineLatest(
-    tableHeight$,
-    rowHeight$,
-    columns$,
-    rowCount$,
-    visibleIndices$,
-    (tableHeight, rowHeight, columns, rowCount, visibleIndices) => ({
-      tableHeight,
-      rowHeight,
-      columns,
-      rowCount,
-      visibleIndices,
-    })
-  )
-  return state$
+  const data = [
+    {
+      id: 1,
+      name: 'Прокладка временных коммуникаций',
+      start: moment(new Date(2017, 6, 1)),
+      finish: moment(new Date(2017, 6, 5)),
+    },
+    {
+      id: 2,
+      name: 'Устройство котлована',
+      start: moment(new Date(2017, 6, 3)),
+      finish: moment(new Date(2017, 6, 6)),
+    },
+    {
+      id: 3,
+      name: 'Сооружение строительной базы',
+      start: moment(new Date(2017, 6, 15)),
+      finish: moment(new Date(2017, 6, 25)),
+    },
+    {
+      id: 4,
+      name: 'Возведение каркаса здания',
+      start: moment(new Date(2017, 6, 18)),
+      finish: moment(new Date(2017, 7, 2)),
+    },
+    {
+      id: 5,
+      name: 'Устройство кровли',
+      start: moment(new Date(2017, 6, 29)),
+      finish: moment(new Date(2017, 7, 4)),
+    },
+  ]
+
+  data.sort((a, b) => a.start > b.start)
+
+  return data
 }
 
 export default model

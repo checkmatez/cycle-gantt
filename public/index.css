@@ -1,0 +1,85 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font: 16px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  line-height: 1.4em;
+  background: #f5f5f5;
+  color: #4d4d4d;
+  margin: 0 auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  font-weight: 300;
+}
+
+.wrapper {
+  overflow-x: auto;
+}
+
+.table {
+  table-layout: fixed;
+  border: 2px solid #dddddd;
+  background-color: white;
+  border-collapse: collapse;
+  width: 100vw;
+}
+
+.th {
+  background-color: beige;
+  text-align: center;
+}
+
+.td.centered {
+  text-align: center;
+}
+
+.td {
+  text-align: left;
+}
+
+.th, .td {
+  padding: 8px;
+  border: 1px solid #dddddd;
+  word-wrap: break-word;
+}
+
+.th.day {
+  padding: 2px;
+  font-size: 0.7rem;
+}
+
+.marked {
+  background-color: lawngreen;
+}
+
+tr:hover {
+  background-color: #f5f5f5;
+  cursor: pointer;
+}
+
+.taskId {
+  width: 80px;
+}
+
+.taskName {
+  width: 400px;
+}
+
+.start {
+  width: 100px;
+}
+
+.finish {
+  width: 100px;
+}
+
+.duration {
+  width: 60px;
+}
