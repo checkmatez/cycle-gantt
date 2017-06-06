@@ -3,8 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "cycle-scripts": "1.1.0",
-    "html2hscript": "^2.0.1"
+    "cycle-scripts": "1.1.0"
   },
   "dependencies": {
     "@cycle/dom": "^17.4.0",

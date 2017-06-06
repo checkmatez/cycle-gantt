@@ -1,12 +1,8 @@
 function intent(DOM) {
-  // let actions = {
-  //   userScrolled$: DOM.select('#scroll-table-container')
-  //     .events('scroll')
-  //     .map(e => e.srcElement.scrollTop),
-  // }
-
   const actions = {
-    userClickedRow$: DOM.select('.row').events('click').map(e => e.target),
+    userClickedRow$: DOM.select('.row').events('click').map(e => {
+      return e.path.find(el => el.tagName === 'TR').dataset.rowindex - 2
+    }),
   }
   return actions
 }
